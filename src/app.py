@@ -9,7 +9,7 @@ def hello_world():
     return jsonify(
         {
             'app': 'python-app',
-            'version': '1.0',
+            'version': '1.1',
             'owner': 'igor',
             'date': datetime.datetime.now().strftime('%d-%m-%Y'),
             'hostname': socket.gethostname()

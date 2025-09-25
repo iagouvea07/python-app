@@ -1,4 +1,4 @@
-name: ci
+name: ci-cd
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  docker:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -39,3 +39,17 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: iagouvea/python-app:${{ env.COMMIT_ID }}
+
+  cd:
+    needs: ci
+    runs-on: self-hosted
+    steps:
+      - name: Argocd app Sync
+        run: |
+          argocd login argocd-server.argo.svc.cluster.local \
+            --insecure \
+            --grpc-web \
+            --username admin \
+            --password ${{ secrets.ARGOCD_PASSWORD }}
+          argocd app sync python-app
+

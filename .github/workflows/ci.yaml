@@ -23,9 +23,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Get Short Commit ID
+        run: COMMIT_ID="${{ github.sha }}"
+
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
           push: true
           platforms: linux/amd64, linux/arm64
-          tags: iagouvea/python-app:${GITHUB_SHA::6}
+          tags: iagouvea/python-app:${COMMIT_ID::6}

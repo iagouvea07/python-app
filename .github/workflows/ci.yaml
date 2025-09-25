@@ -23,9 +23,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+          calculatedSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_ID=$calculatedSha" >> $GITHUB_ENV
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
           push: true
           platforms: linux/amd64, linux/arm64
-          tags: iagouvea/python-app:${{ github.sha }}
+          tags: iagouvea/python-app:${{ env.COMMIT_ID }}

@@ -16,7 +16,6 @@ def hello_world():
         }
     )
 
-
 @app.route('/api/v1/health')
 def health():
     return jsonify({'status': 'healthy'})

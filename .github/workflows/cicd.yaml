@@ -52,20 +52,19 @@ jobs:
       - name: Modify values file
         shell: bash
         run: |
-          echo ${{ needs.ci.outputs.commit_id }}
           pip install yq
           yq -Yi '.image.tag = "${{ needs.ci.outputs.commit_id }}"' helm/python-app/values.yaml
+  
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: 'Change version in values.yaml'
 
       - name: Install Argocd CLI
         run: |
           curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/download/v3.1.7/argocd-linux-arm64
           sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
           rm argocd-linux-amd64
-
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: 'Change version in values.yaml'
 
       - name: Argocd app Sync
         run: |

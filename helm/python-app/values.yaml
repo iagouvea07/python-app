@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: iagouvea/python-app
   pullPolicy: IfNotPresent
-  tag: "087aa4a"
+  tag: "9e6acc9"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
